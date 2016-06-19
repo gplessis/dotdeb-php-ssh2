@@ -1,0 +1,5 @@
+php-ssh2 (1.0-1~dotdeb+8.1) stable; urgency=medium
+
+  * Imported Upstream version 1.0
+
+ -- Guillaume Plessis <gui@dotdeb.org>  Sun, 19 Jun 2016 18:57:42 +0000

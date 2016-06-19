@@ -1,0 +1,17 @@
+Source: php-ssh2
+Section: php
+Priority: extra
+Maintainer: Guillaume Plessis <gui@dotdeb.org>
+Build-Depends: debhelper (>= 9),
+	       php7.0-dev,
+	       dh-php,
+	       libssh2-1-dev
+Standards-Version: 3.9.8
+Homepage: http://pecl.php.net/package/ssh2
+
+Package: php7.0-ssh2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${php:Depends}
+Description: Bindings for the libssh2 library
+ Provides PHP bindings to the functions of libssh2 which implements
+ the SSH2 protocol.
