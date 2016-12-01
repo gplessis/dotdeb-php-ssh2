@@ -1,3 +1,9 @@
+php-ssh2 (1.0-1~dotdeb+8.3) stable; urgency=medium
+
+  * patches upstream to 756e2f1
+
+ -- Guillaume Plessis <gui@dotdeb.org>  Thu,  1 Dec 2016 19:22:42 +0000
+
 php-ssh2 (1.0-1~dotdeb+8.2) stable; urgency=medium
 
   * Rebuilt for PHP 7.0.8+
