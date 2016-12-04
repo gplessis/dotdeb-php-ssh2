@@ -1,0 +1,22 @@
+From: Remi Collet <remi@php.net>
+Date: Thu, 10 Nov 2016 09:33:25 +0100
+Subject: fix Invalid write of size 1
+
+---
+ ssh2-1.0/ssh2_fopen_wrappers.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Index: dotdeb-php-ssh2/ssh2-1.0/ssh2_fopen_wrappers.c
+===================================================================
+--- dotdeb-php-ssh2.orig/ssh2-1.0/ssh2_fopen_wrappers.c
++++ dotdeb-php-ssh2/ssh2-1.0/ssh2_fopen_wrappers.c
+@@ -220,7 +220,8 @@ php_url *php_ssh2_fopen_wraper_parse_pat
+ 	if (h) {
+ 		/* Starting with 5.6.28, 7.0.13 need to be clean, else php_url_parse will fail */
+ 		char *tmp = estrdup(path);
+-		strncpy(tmp + (h-path), h + sizeof("Resource id #")-1, strlen(tmp));
++
++		strncpy(tmp + (h-path), h + sizeof("Resource id #")-1, strlen(tmp)-sizeof("Resource id #"));
+ 		resource = php_url_parse(tmp);
+ 		efree(tmp);
+ 	} else {

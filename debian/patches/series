@@ -1,1 +1,2 @@
-ssh2-1.0-756e2f1.patch
+0002-fix-for-PHP-7.0.13-where-php_url_parse-fails.patch
+0003-fix-Invalid-write-of-size-1.patch

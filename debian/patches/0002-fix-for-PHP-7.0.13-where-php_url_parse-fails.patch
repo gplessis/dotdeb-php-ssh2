@@ -1,0 +1,44 @@
+From: Remi Collet <remi@php.net>
+Date: Thu, 10 Nov 2016 09:16:02 +0100
+Subject: fix for PHP 7.0.13 where php_url_parse fails
+
+---
+ ssh2-1.0/ssh2_fopen_wrappers.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+Index: dotdeb-php-ssh2/ssh2-1.0/ssh2_fopen_wrappers.c
+===================================================================
+--- dotdeb-php-ssh2.orig/ssh2-1.0/ssh2_fopen_wrappers.c
++++ dotdeb-php-ssh2/ssh2-1.0/ssh2_fopen_wrappers.c
+@@ -213,10 +213,19 @@ php_url *php_ssh2_fopen_wraper_parse_pat
+ 	php_url *resource;
+ 	zval *methods = NULL, *callbacks = NULL, zsession, *tmpzval;
+ 	long resource_id;
+-	char *s, *username = NULL, *password = NULL, *pubkey_file = NULL, *privkey_file = NULL;
++	char *h, *s, *username = NULL, *password = NULL, *pubkey_file = NULL, *privkey_file = NULL;
+ 	int username_len = 0, password_len = 0;
+ 
+-	resource = php_url_parse(path);
++	h = strstr(path, "Resource id #");
++	if (h) {
++		/* Starting with 5.6.28, 7.0.13 need to be clean, else php_url_parse will fail */
++		char *tmp = estrdup(path);
++		strncpy(tmp + (h-path), h + sizeof("Resource id #")-1, strlen(tmp));
++		resource = php_url_parse(tmp);
++		efree(tmp);
++	} else {
++		resource = php_url_parse(path);
++	}
+ 	if (!resource || !resource->path) {
+ 		return NULL;
+ 	}
+@@ -247,9 +256,6 @@ php_url *php_ssh2_fopen_wraper_parse_pat
+ 
+ 	/* Look for a resource ID to reuse a session */
+ 	s = resource->host;
+-	if (strncmp(resource->host, "Resource id #", sizeof("Resource id #") - 1) == 0) {
+-		s = resource->host + sizeof("Resource id #") - 1;
+-	}
+ 	if (is_numeric_string(s, strlen(s), &resource_id, NULL, 0) == IS_LONG) {
+ 		php_ssh2_sftp_data *sftp_data;
+ 
