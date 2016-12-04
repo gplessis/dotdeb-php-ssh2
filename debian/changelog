@@ -1,3 +1,9 @@
+php-ssh2 (1.0-1~dotdeb+8.4) stable; urgency=medium
+
+  * Rollback to a lighter but safer fix
+
+ -- Guillaume Plessis <gui@dotdeb.org>  Sun,  4 Dec 2016 03:11:42 +0000
+
 php-ssh2 (1.0-1~dotdeb+8.3) stable; urgency=medium
 
   * patches upstream to 756e2f1
